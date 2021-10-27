@@ -6,7 +6,7 @@
  */
 
 /**
- * Renders the `core/image` block on server.
+ * Renders the `core/image` block on the server.
  *
  * @param  array $attributes The block attributes.
  * @param  array $content    The block content.
