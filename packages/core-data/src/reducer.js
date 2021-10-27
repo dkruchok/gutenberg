@@ -137,6 +137,26 @@ export function currentGlobalStylesId( state = undefined, action ) {
 }
 
 /**
+ * Reducer managing the theme base global styles.
+ *
+ * @param {string} state  Current state.
+ * @param {Object} action Dispatched action.
+ *
+ * @return {string} Updated state.
+ */
+export function themeBaseGlobalStyles( state = {}, action ) {
+	switch ( action.type ) {
+		case 'RECEIVE_THEME_GLOBAL_STYLES':
+			return {
+				...state,
+				[ action.stylesheet ]: action.globalStyles,
+			};
+	}
+
+	return state;
+}
+
+/**
  * Reducer managing installed themes.
  *
  * @param {Object} state  Current state.
@@ -589,6 +609,7 @@ export default combineReducers( {
 	currentTheme,
 	currentGlobalStylesId,
 	currentUser,
+	themeBaseGlobalStyles,
 	taxonomies,
 	themes,
 	themeSupports,

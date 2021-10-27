@@ -23,7 +23,6 @@ import { store as coreStore } from '@wordpress/core-data';
 /**
  * Internal dependencies
  */
-import { store as editSiteStore } from '../../store';
 import { PRESET_METADATA } from './utils';
 import { GlobalStylesContext } from './context';
 
@@ -130,8 +129,9 @@ function useGlobalStylesUserConfig() {
 
 function useGlobalStylesBaseConfig() {
 	const baseConfig = useSelect( ( select ) => {
-		return select( editSiteStore ).getSettings()
-			.__experimentalGlobalStylesBaseConfig;
+		return select(
+			coreStore
+		).__experimentalGetCurrentThemeBaseGlobalStyles();
 	}, [] );
 
 	return baseConfig;
@@ -141,6 +141,9 @@ function useGlobalStylesContext() {
 	const [ userConfig, setUserConfig ] = useGlobalStylesUserConfig();
 	const baseConfig = useGlobalStylesBaseConfig();
 	const mergedConfig = useMemo( () => {
+		if ( ! baseConfig || ! userConfig ) {
+			return {};
+		}
 		return mergeBaseAndUserConfigs( baseConfig, userConfig );
 	}, [ userConfig, baseConfig ] );
 	const context = useMemo( () => {
