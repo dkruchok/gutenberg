@@ -211,7 +211,6 @@ function Navigation( {
 			<UnsavedInnerBlocks
 				blockProps={ blockProps }
 				blocks={ innerBlocks }
-				clientId={ clientId }
 				navigationMenus={ navigationMenus }
 				onSave={ ( post ) =>
 					setAttributes( { navigationMenuId: post.id } )
