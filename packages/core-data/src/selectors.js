@@ -706,7 +706,7 @@ export function __experimentalGetCurrentGlobalStylesId( state ) {
  * @return {*} Index data.
  */
 export function getThemeSupports( state ) {
-	return state.themeSupports;
+	return getCurrentTheme( state )?.theme_supports;
 }
 
 /**
