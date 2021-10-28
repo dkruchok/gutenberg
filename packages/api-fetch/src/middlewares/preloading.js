@@ -1,4 +1,9 @@
 /**
+ * WordPress dependencies
+ */
+import { getQueryArg } from '@wordpress/url';
+
+/**
  * Given a path, returns a normalized path where equal query parameter values
  * will be treated as identical, regardless of order they appear in the original
  * text.
@@ -45,9 +50,13 @@ function createPreloadingMiddleware( preloadedData ) {
 
 	return ( options, next ) => {
 		const { parse = true } = options;
-		if ( typeof options.path === 'string' ) {
+		let rawPath = options.path;
+		if ( ! rawPath && options.url ) {
+			rawPath = getQueryArg( options.url, 'rest_route' );
+		}
+		if ( typeof rawPath === 'string' ) {
 			const method = options.method || 'GET';
-			const path = getStablePath( options.path );
+			const path = getStablePath( rawPath );
 
 			if ( 'GET' === method && cache[ path ] ) {
 				const cacheData = cache[ path ];
