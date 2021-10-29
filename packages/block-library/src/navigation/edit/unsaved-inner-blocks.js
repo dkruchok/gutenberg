@@ -38,7 +38,7 @@ export default function UnsavedInnerBlocks( { blockProps, blocks, onSave } ) {
 			const record = {
 				title,
 				content: serialize( blocks ),
-				status: 'publish',
+				status: 'auto-draft',
 			};
 
 			const navigationMenu = await saveEntityRecord(
