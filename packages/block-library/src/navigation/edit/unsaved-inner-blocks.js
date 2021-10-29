@@ -14,7 +14,12 @@ import { __ } from '@wordpress/i18n';
  */
 import useNavigationMenu from '../use-navigation-menu';
 
-export default function UnsavedInnerBlocks( { blockProps, blocks, onSave } ) {
+export default function UnsavedInnerBlocks( {
+	blockProps,
+	blocks,
+	onSave,
+	hasSelection,
+} ) {
 	const isDisabled = useContext( Disabled.Context );
 	const { hasResolvedNavigationMenus, navigationMenus } = useNavigationMenu();
 	const savingLock = useRef( false );
@@ -38,7 +43,7 @@ export default function UnsavedInnerBlocks( { blockProps, blocks, onSave } ) {
 			const record = {
 				title,
 				content: serialize( blocks ),
-				status: 'auto-draft',
+				status: 'draft',
 			};
 
 			const navigationMenu = await saveEntityRecord(
@@ -61,13 +66,17 @@ export default function UnsavedInnerBlocks( { blockProps, blocks, onSave } ) {
 		// Also ensure other navigation menus have loaded so an
 		// accurate name can be created.
 		//
-		// And finally don't try saving when another save is already
+		// Don't try saving when another save is already
 		// in progress.
+		//
+		// And finally only create the menu when the block is selected,
+		// which is an indication they want to start editing.
 		if (
 			isDisabled ||
 			isSaving ||
 			savingLock.current ||
-			! hasResolvedNavigationMenus
+			! hasResolvedNavigationMenus ||
+			! hasSelection
 		) {
 			return;
 		}
@@ -93,10 +102,11 @@ export default function UnsavedInnerBlocks( { blockProps, blocks, onSave } ) {
 		savingLock.current = false;
 		onSave( menu );
 	}, [
-		createNavigationMenu,
-		hasResolvedNavigationMenus,
 		isDisabled,
 		isSaving,
+		hasResolvedNavigationMenus,
+		hasSelection,
+		createNavigationMenu,
 		navigationMenus,
 	] );
 

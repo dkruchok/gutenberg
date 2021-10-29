@@ -75,6 +75,7 @@ function Navigation( {
 	attributes,
 	setAttributes,
 	clientId,
+	isSelected,
 	className,
 	backgroundColor,
 	setBackgroundColor,
@@ -106,8 +107,16 @@ function Navigation( {
 		`navigationMenu/${ navigationMenuId }`
 	);
 
-	const innerBlocks = useSelect(
-		( select ) => select( blockEditorStore ).getBlocks( clientId ),
+	const { innerBlocks, isInnerBlockSelected } = useSelect(
+		( select ) => {
+			const { getBlocks, hasSelectedInnerBlock } = select(
+				blockEditorStore
+			);
+			return {
+				innerBlocks: getBlocks( clientId ),
+				isInnerBlockSelected: hasSelectedInnerBlock( clientId, true ),
+			};
+		},
 		[ clientId ]
 	);
 	const hasExistingNavItems = !! innerBlocks.length;
@@ -212,6 +221,7 @@ function Navigation( {
 				blockProps={ blockProps }
 				blocks={ innerBlocks }
 				navigationMenus={ navigationMenus }
+				hasSelection={ isSelected || isInnerBlockSelected }
 				onSave={ ( post ) =>
 					setAttributes( { navigationMenuId: post.id } )
 				}
