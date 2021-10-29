@@ -152,23 +152,30 @@ function setFetchHandler( newFetchHandler ) {
  * @return {Promise<T>} A promise representing the request processed via the registered middlewares.
  */
 function apiFetch( options ) {
+	// console.log('core apiFetch')
 	// creates a nested function chain that calls all middlewares and finally the `fetchHandler`,
 	// converting `middlewares = [ m1, m2, m3 ]` into:
 	// ```
 	// opts1 => m1( opts1, opts2 => m2( opts2, opts3 => m3( opts3, fetchHandler ) ) );
 	// ```
-	const enhancedHandler = middlewares.reduceRight( (
-		/** @type {FetchHandler} */ next,
-		middleware
-	) => {
-		return ( workingOptions ) => middleware( workingOptions, next );
-	}, fetchHandler );
+	// const enhancedHandler = middlewares.reduceRight( (
+	// 	/** @type {FetchHandler} */ next,
+	// 	middleware
+	// ) => {
+	// 	return ( workingOptions ) => middleware( workingOptions, next );
+	// }, fetchHandler );
 
-	return enhancedHandler( options ).catch( ( error ) => {
+	// console.log('core apiFetch 2', enhancedHandler)
+	return fetchHandler( options )
+		.catch( ( error ) => {
+			// console.log('core apiFetch 6', error)
+
 		if ( error.code !== 'rest_cookie_invalid_nonce' ) {
+			// console.log('core apiFetch 5', error, options)
 			return Promise.reject( error );
 		}
 
+		// console.log('core apiFetch 3')
 		// If the nonce is invalid, refresh it and try again.
 		return (
 			window
@@ -177,12 +184,14 @@ function apiFetch( options ) {
 				.then( checkStatus )
 				.then( ( data ) => data.text() )
 				.then( ( text ) => {
+					// console.log('core apiFetch 4')
 					// @ts-ignore
 					apiFetch.nonceMiddleware.nonce = text;
 					return apiFetch( options );
 				} )
 		);
-	} );
+	}
+	);
 }
 
 apiFetch.use = registerMiddleware;
