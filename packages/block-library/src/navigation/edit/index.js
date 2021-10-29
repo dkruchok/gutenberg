@@ -42,6 +42,7 @@ import ResponsiveWrapper from './responsive-wrapper';
 import NavigationInnerBlocks from './inner-blocks';
 import NavigationMenuSelector from './navigation-menu-selector';
 import NavigationMenuNameControl from './navigation-menu-name-control';
+import NavigationMenuPublishButton from './navigation-menu-publish-button';
 import UnsavedInnerBlocks from './unsaved-inner-blocks';
 
 function getComputedStyle( node ) {
@@ -136,9 +137,11 @@ function Navigation( {
 		canSwitchNavigationMenu,
 		hasResolvedNavigationMenus,
 		navigationMenus,
+		navigationMenu,
 	} = useNavigationMenu( navigationMenuId );
 
 	const navRef = useRef();
+	const isDraftNavigationMenu = navigationMenu?.status === 'draft';
 
 	const { listViewToolbarButton, listViewModal } = useListViewModal(
 		clientId
@@ -270,8 +273,8 @@ function Navigation( {
 		>
 			<RecursionProvider>
 				<BlockControls>
-					<ToolbarGroup>
-						{ isEntityAvailable && (
+					{ ! isDraftNavigationMenu && isEntityAvailable && (
+						<ToolbarGroup>
 							<ToolbarDropdownMenu
 								label={ __( 'Select Menu' ) }
 								text={ __( 'Select Menu' ) }
@@ -288,8 +291,8 @@ function Navigation( {
 									/>
 								) }
 							</ToolbarDropdownMenu>
-						) }
-					</ToolbarGroup>
+						</ToolbarGroup>
+					) }
 					{ hasItemJustificationControls && (
 						<JustifyToolbar
 							value={ itemsJustification }
@@ -304,6 +307,11 @@ function Navigation( {
 						/>
 					) }
 					<ToolbarGroup>{ listViewToolbarButton }</ToolbarGroup>
+					<ToolbarGroup>
+						{ isDraftNavigationMenu && (
+							<NavigationMenuPublishButton />
+						) }
+					</ToolbarGroup>
 				</BlockControls>
 				{ listViewModal }
 				<InspectorControls>
