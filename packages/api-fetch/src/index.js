@@ -166,9 +166,8 @@ function apiFetch( options ) {
 	// }, fetchHandler );
 
 	// console.log('core apiFetch 2', enhancedHandler)
-	return fetchHandler( options )
-		.catch( ( error ) => {
-			// console.log('core apiFetch 6', error)
+	return fetchHandler( options ).catch( ( error ) => {
+		// console.log('core apiFetch 6', error)
 
 		if ( error.code !== 'rest_cookie_invalid_nonce' ) {
 			// console.log('core apiFetch 5', error, options)
@@ -190,8 +189,7 @@ function apiFetch( options ) {
 					return apiFetch( options );
 				} )
 		);
-	}
-	);
+	} );
 }
 
 apiFetch.use = registerMiddleware;
