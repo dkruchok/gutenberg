@@ -10,7 +10,7 @@ import { addQueryArgs } from '@wordpress/url';
  */
 import BlockTypesList from '../block-types-list';
 import InserterPanel from './panel';
-import InserterNoResults from './no-results';
+//import InserterNoResults from './no-results';
 import useBlockTypesState from './hooks/use-block-types-state';
 
 function ReusableBlocksList( { onHover, onInsert, rootClientId } ) {
