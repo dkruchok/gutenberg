@@ -529,6 +529,7 @@ function TableEdit( {
 						<Button
 							className="blocks-table__placeholder-button"
 							variant="primary"
+							onClick={ onCreateTable }
 							type="submit"
 						>
 							{ __( 'Create Table' ) }

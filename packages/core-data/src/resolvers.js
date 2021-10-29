@@ -42,10 +42,7 @@ import {
  *                                 include with request.
  */
 export function* getAuthors( query ) {
-	const path = addQueryArgs(
-		'/wp/v2/users/?who=authors&per_page=100',
-		query
-	);
+	const path = addQueryArgs( '/wp/v2/users/', query );
 	const users = yield apiFetch( { path } );
 	yield receiveUserQuery( path, users );
 }
@@ -160,6 +157,9 @@ export function* getEntityRecords( kind, name, query = {} ) {
 	const entities = yield getKindEntities( kind );
 	const entity = find( entities, { kind, name } );
 	if ( ! entity ) {
+		// if (name == 'wp_block') {
+		// 	console.log('getEntityRecords 1', name)
+		// }
 		return;
 	}
 
@@ -168,8 +168,17 @@ export function* getEntityRecords( kind, name, query = {} ) {
 		[ 'entities', 'data', kind, name ],
 		{ exclusive: false }
 	);
+	// if (name == 'wp_block') {
+	// 	console.log('getEntityRecords 2', name)
+	// }
 	try {
+		// if (name == 'wp_block') {
+		// 	console.log('getEntityRecords 3', name)
+		// }
 		if ( query._fields ) {
+			// if (name == 'wp_block') {
+			// 	console.log('getEntityRecords 3-1', name)
+			// }
 			// If requesting specific fields, items and query association to said
 			// records are stored by ID reference. Thus, fields must always include
 			// the ID.
@@ -187,11 +196,29 @@ export function* getEntityRecords( kind, name, query = {} ) {
 			...query,
 		} );
 
-		let records = Object.values( yield apiFetch( { path } ) );
+		// if (name == 'wp_block') {
+		// 	console.log('getEntityRecords 4', path, name)
+		// }
+
+		let val = yield apiFetch( { path } );
+		// if (name == 'wp_block') {
+		// 	console.log('getEntityRecords 4-1', val)
+		// }
+
+		if ( ! val ) {
+			val = [];
+		}
+		let records = Object.values( val );
+		// if (name == 'wp_block') {
+		// 	console.log('getEntityRecords 5', path, name)
+		// }
 		// If we request fields but the result doesn't contain the fields,
 		// explicitely set these fields as "undefined"
 		// that way we consider the query "fullfilled".
 		if ( query._fields ) {
+			// if (name == 'wp_block') {
+			// 	console.log('getEntityRecords 6', path, name)
+			// }
 			records = records.map( ( record ) => {
 				query._fields.split( ',' ).forEach( ( field ) => {
 					if ( ! record.hasOwnProperty( field ) ) {
@@ -203,11 +230,17 @@ export function* getEntityRecords( kind, name, query = {} ) {
 			} );
 		}
 
+		// if (name == 'wp_block') {
+		// 	console.log('getEntityRecords 7', path, name)
+		// }
 		yield receiveEntityRecords( kind, name, records, query );
 		// When requesting all fields, the list of results can be used to
 		// resolve the `getEntityRecord` selector in addition to `getEntityRecords`.
 		// See https://github.com/WordPress/gutenberg/pull/26575
 		if ( ! query?._fields && ! query.context ) {
+			// if (name == 'wp_block') {
+			// 	console.log('getEntityRecords 8', path, name)
+			// }
 			const key = entity.key || DEFAULT_ENTITY_KEY;
 			const resolutionsArgs = records
 				.filter( ( record ) => record[ key ] )
@@ -225,6 +258,9 @@ export function* getEntityRecords( kind, name, query = {} ) {
 			};
 		}
 	} finally {
+		// if (name == 'wp_block') {
+		// 	console.log('getEntityRecords 9', name)
+		// }
 		yield* __unstableReleaseStoreLock( lock );
 	}
 }

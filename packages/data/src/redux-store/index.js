@@ -409,13 +409,15 @@ function mapResolvers( resolvers, selectors, store, resolversCache ) {
 						selectorName,
 						...args
 					);
+					//.catch(e => console.log(e))
 					store.dispatch(
 						metadataActions.finishResolution( selectorName, args )
 					);
-				} );
+				}, 1000 );
 			}
 
 			fulfillSelector( ...args );
+			//.catch(er => console.log(er))
 			return selector( ...args );
 		};
 		selectorResolver.hasResolver = true;
@@ -445,5 +447,6 @@ async function fulfillResolver( store, resolvers, selectorName, ...args ) {
 	const action = resolver.fulfill( ...args );
 	if ( action ) {
 		await store.dispatch( action );
+		//.catch(e => console.log('caught', e, action, args, selectorName))
 	}
 }

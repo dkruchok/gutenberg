@@ -100,22 +100,35 @@ const controls = {
 					status: 'publish',
 				};
 
+				// console.log('registry', registry)
+				// console.log('reusableBlock', reusableBlock)
+
+				// winetourism
 				const updatedRecord = await registry
 					.dispatch( 'core' )
 					.saveEntityRecord( 'postType', 'wp_block', reusableBlock );
 
+				// console.log('controlls', updatedRecord)
 				const newBlock = createBlock( 'core/block', {
 					ref: updatedRecord.id,
 				} );
+
+				// console.log('controlls 2', newBlock)
+
 				registry
 					.dispatch( blockEditorStore )
 					.replaceBlocks( clientIds, newBlock );
+
+				// console.log('controlls 3')
+
 				registry
 					.dispatch( reusableBlocksStore )
 					.__experimentalSetEditingReusableBlock(
 						newBlock.clientId,
 						true
 					);
+
+				// console.log('controlls 4')
 			}
 	),
 

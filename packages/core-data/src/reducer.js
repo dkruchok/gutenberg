@@ -205,6 +205,10 @@ function entity( entityConfig ) {
 						const nextState = { ...state };
 
 						for ( const record of action.items ) {
+							// winetourism
+							if ( ! record ) {
+								continue;
+							}
 							const recordId = record[ action.key ];
 							const edits = nextState[ recordId ];
 							if ( ! edits ) {

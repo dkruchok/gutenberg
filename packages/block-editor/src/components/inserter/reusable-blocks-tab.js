@@ -14,6 +14,7 @@ import InserterNoResults from './no-results';
 import useBlockTypesState from './hooks/use-block-types-state';
 
 function ReusableBlocksList( { onHover, onInsert, rootClientId } ) {
+	// console.log('in reusable ')
 	const [ items, , , onSelectItem ] = useBlockTypesState(
 		rootClientId,
 		onInsert
@@ -23,9 +24,9 @@ function ReusableBlocksList( { onHover, onInsert, rootClientId } ) {
 		return items.filter( ( { category } ) => category === 'reusable' );
 	}, [ items ] );
 
-	if ( filteredItems.length === 0 ) {
-		return <InserterNoResults />;
-	}
+	// if ( filteredItems.length === 0 ) {
+	// 	return <InserterNoResults />;
+	// }
 
 	return (
 		<InserterPanel title={ __( 'Reusable blocks' ) }>

@@ -91,11 +91,16 @@ export function items( state = {}, action ) {
 				[ context ]: {
 					...state[ context ],
 					...action.items.reduce( ( accumulator, value ) => {
-						const itemId = value[ key ];
-						accumulator[ itemId ] = conservativeMapItem(
-							state?.[ context ]?.[ itemId ],
-							value
-						);
+						// console.log(accumulator, value
+						if ( value ) {
+							const itemId = value[ key ];
+							accumulator[ itemId ] = conservativeMapItem(
+								state?.[ context ]?.[ itemId ],
+								value
+							);
+							return accumulator;
+						}
+
 						return accumulator;
 					}, {} ),
 				},
@@ -127,6 +132,13 @@ export function itemIsComplete( state = {}, action ) {
 			const context = getContextFromAction( action );
 			const { query, key = DEFAULT_ENTITY_KEY } = action;
 
+			// winetourism
+			if ( context === undefined ) {
+				return {
+					...state,
+				};
+			}
+
 			// An item is considered complete if it is received without an associated
 			// fields query. Ideally, this would be implemented in such a way where the
 			// complete aggregate of all fields would satisfy completeness. Since the
@@ -142,6 +154,11 @@ export function itemIsComplete( state = {}, action ) {
 				[ context ]: {
 					...state[ context ],
 					...action.items.reduce( ( result, item ) => {
+						// winetourism
+						if ( item === undefined ) {
+							return result;
+						}
+
 						const itemId = item[ key ];
 
 						// Defer to completeness if already assigned. Technically the

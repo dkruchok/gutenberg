@@ -33,9 +33,12 @@ const EmbedPlaceholder = ( {
 					placeholder={ __( 'Enter URL to embed here…' ) }
 					onChange={ onChange }
 				/>
-				<Button variant="primary" type="submit">
-					{ _x( 'Embed', 'button label' ) }
-				</Button>
+				{ /*WINETOURISM*/ }
+				<input
+					className={ 'components-button is-primary' }
+					type="submit"
+					value={ _x( 'Embed', 'button label' ) }
+				/>
 			</form>
 			<div className="components-placeholder__learn-more">
 				<ExternalLink

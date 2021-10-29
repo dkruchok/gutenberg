@@ -51,9 +51,10 @@ const MoreMenu = ( { showIconLabels } ) => {
 						fillProps={ { onClick: onClose } }
 					/>
 					<ToolsMoreMenuGroup.Slot fillProps={ { onClose } } />
-					<MenuGroup>
-						<PreferencesMenuItem />
-					</MenuGroup>
+					{ /* WINETOURISM hide preferences*/ }
+					{ /*<MenuGroup>*/ }
+					{ /*	<PreferencesMenuItem />*/ }
+					{ /*</MenuGroup>*/ }
 				</>
 			) }
 		</MoreMenuDropdown>

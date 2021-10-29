@@ -336,7 +336,7 @@ export default function PreferencesModal() {
 	return (
 		<Modal
 			className="edit-post-preferences-modal"
-			title={ __( 'Preferences' ) }
+			title={ __( 'Preferences1' ) }
 			closeLabel={ __( 'Close' ) }
 			onRequestClose={ closeModal }
 		>

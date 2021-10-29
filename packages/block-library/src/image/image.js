@@ -301,20 +301,26 @@ export default function Image( {
 						rel={ rel }
 					/>
 				) }
-				{ allowCrop && (
-					<ToolbarButton
-						onClick={ () => setIsEditingImage( true ) }
-						icon={ crop }
-						label={ __( 'Crop' ) }
-					/>
-				) }
-				{ externalBlob && (
-					<ToolbarButton
-						onClick={ uploadExternal }
-						icon={ upload }
-						label={ __( 'Upload external image' ) }
-					/>
-				) }
+
+				{ /* WINETOURISM  TODO implement editor functionality*/ }
+
+				{ /*{ allowCrop && (*/ }
+				{ /*	<ToolbarButton*/ }
+				{ /*		onClick={ () => setIsEditingImage( true ) }*/ }
+				{ /*		icon={ crop }*/ }
+				{ /*		label={ __( 'Crop' ) }*/ }
+				{ /*	/>*/ }
+				{ /*) }*/ }
+
+				{ /* WINETOURISM */ }
+				{ /*{ externalBlob && (*/ }
+				{ /*	<ToolbarButton*/ }
+				{ /*		onClick={ uploadExternal }*/ }
+				{ /*		icon={ upload }*/ }
+				{ /*		label={ __( 'Upload external image' ) }*/ }
+				{ /*	/>*/ }
+				{ /*) }*/ }
+
 				{ ! multiImageSelection && canInsertCover && (
 					<ToolbarButton
 						icon={ overlayText }

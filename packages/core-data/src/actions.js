@@ -366,11 +366,17 @@ export function* saveEntityRecord(
 	record,
 	{ isAutosave = false, __unstableFetch = null } = {}
 ) {
+	// console.log('saveEntityRecord 1' )
 	const entities = yield getKindEntities( kind );
+	// console.log('entities' ,entities)
 	const entity = find( entities, { kind, name } );
+	// console.log('entity', entity, kind, name)
+	// console.log('saveEntityRecord 2' )
 	if ( ! entity ) {
 		return;
 	}
+
+	// console.log('saveEntityRecord 3' )
 	const entityIdKey = entity.key || DEFAULT_ENTITY_KEY;
 	const recordId = record[ entityIdKey ];
 
@@ -379,10 +385,14 @@ export function* saveEntityRecord(
 		[ 'entities', 'data', kind, name, recordId || uuid() ],
 		{ exclusive: true }
 	);
+
+	// console.log('saveEntityRecord 4' )
 	try {
+		// console.log('saveEntityRecord 5' )
 		// Evaluate optimized edits.
 		// (Function edits that should be evaluated on save to avoid expensive computations on every edit.)
 		for ( const [ key, value ] of Object.entries( record ) ) {
+			// console.log('saveEntityRecord 6' )
 			if ( typeof value === 'function' ) {
 				const evaluatedValue = value(
 					yield controls.select(
@@ -393,6 +403,7 @@ export function* saveEntityRecord(
 						recordId
 					)
 				);
+				// console.log('saveEntityRecord 7' )
 				yield editEntityRecord(
 					kind,
 					name,
@@ -405,7 +416,7 @@ export function* saveEntityRecord(
 				record[ key ] = evaluatedValue;
 			}
 		}
-
+		// console.log('saveEntityRecord 8' )
 		yield {
 			type: 'SAVE_ENTITY_RECORD_START',
 			kind,
@@ -419,6 +430,8 @@ export function* saveEntityRecord(
 			const path = `${ entity.baseURL }${
 				recordId ? '/' + recordId : ''
 			}`;
+
+			// console.log('save saveEntityRecord path', path)
 			const persistedRecord = yield controls.select(
 				STORE_NAME,
 				'getRawEntityRecord',
@@ -428,6 +441,7 @@ export function* saveEntityRecord(
 			);
 
 			if ( isAutosave ) {
+				// console.log('saveEntityRecord 9 autosave' )
 				// Most of this autosave logic is very specific to posts.
 				// This is fine for now as it is the only supported autosave,
 				// but ideally this should all be handled in the back end,
@@ -532,6 +546,7 @@ export function* saveEntityRecord(
 					yield receiveAutosaves( persistedRecord.id, updatedRecord );
 				}
 			} else {
+				// console.log('saveEntityRecord notautosave' )
 				let edits = record;
 				if ( entity.__unstablePrePersist ) {
 					edits = {
@@ -542,18 +557,25 @@ export function* saveEntityRecord(
 						),
 					};
 				}
+				// console.log('saveEntityRecord 10' )
 				const options = {
 					path,
 					method: recordId ? 'PUT' : 'POST',
 					data: edits,
 				};
+				// console.log('saveEntityRecord 11' )
 				if ( __unstableFetch ) {
+					// console.log('saveEntityRecord 11-2' )
 					updatedRecord = yield __unstableAwaitPromise(
 						__unstableFetch( options )
 					);
 				} else {
+					// console.log('saveEntityRecord 12' ,options)
 					updatedRecord = yield apiFetch( options );
+
+					// console.log('saveEntityRecord 12-2' ,updatedRecord)
 				}
+				// console.log('saveEntityRecord 13' )
 				yield receiveEntityRecords(
 					kind,
 					name,
@@ -562,6 +584,8 @@ export function* saveEntityRecord(
 					true,
 					edits
 				);
+
+				// console.log('saveEntityRecord 14' )
 			}
 		} catch ( _error ) {
 			error = _error;
@@ -575,6 +599,7 @@ export function* saveEntityRecord(
 			isAutosave,
 		};
 
+		// console.log('end', updatedRecord)
 		return updatedRecord;
 	} finally {
 		yield* __unstableReleaseStoreLock( lock );
@@ -608,6 +633,7 @@ export function* __experimentalBatch( requests ) {
 	const dispatch = yield getDispatch();
 	const api = {
 		saveEntityRecord( kind, name, record, options ) {
+			console.log( 'save saveEntityRecord' );
 			return batch.add( ( add ) =>
 				dispatch( STORE_NAME ).saveEntityRecord( kind, name, record, {
 					...options,

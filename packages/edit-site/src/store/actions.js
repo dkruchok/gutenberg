@@ -110,12 +110,13 @@ export function* addTemplate( template ) {
  * @param {number} templateId The template ID.
  */
 export function* removeTemplate( templateId ) {
-	yield apiFetch( {
-		path: `/wp/v2/templates/${ templateId }`,
-		method: 'DELETE',
-	} );
-	const page = yield controls.select( editSiteStoreName, 'getPage' );
-	yield controls.dispatch( editSiteStoreName, 'setPage', page );
+	//winetourism
+	// yield apiFetch( {
+	// 	path: `/wp/v2/templates/${ templateId }`,
+	// 	method: 'DELETE',
+	// } );
+	// const page = yield controls.select( editSiteStoreName, 'getPage' );
+	// yield controls.dispatch( editSiteStoreName, 'setPage', page );
 }
 
 /**

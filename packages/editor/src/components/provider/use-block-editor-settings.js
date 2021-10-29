@@ -48,13 +48,11 @@ function useBlockEditorSettings( settings, hasTemplate ) {
 
 		return {
 			canUseUnfilteredHTML: canUserUseUnfilteredHTML(),
-			reusableBlocks: isWeb
-				? select( coreStore ).getEntityRecords(
-						'postType',
-						'wp_block',
-						{ per_page: -1 }
-				  )
-				: [], // Reusable blocks are fetched in the native version of this hook.
+			reusableBlocks: select( coreStore ).getEntityRecords(
+				'postType',
+				'wp_block',
+				{ per_page: -1 }
+			), // Reusable blocks are fetched in the native version of this hook.
 			hasUploadPermissions: defaultTo(
 				canUser( 'create', 'media' ),
 				true
@@ -63,6 +61,8 @@ function useBlockEditorSettings( settings, hasTemplate ) {
 			baseUrl: siteData?.url || '',
 		};
 	}, [] );
+
+	// console.log('reusableBlocks', reusableBlocks)
 
 	const { undo } = useDispatch( editorStore );
 

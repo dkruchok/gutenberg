@@ -52,6 +52,7 @@ function InserterMenu( {
 				blockEditorStore
 			);
 
+			//	console.log('getSettings()', getSettings(), getSettings().__experimentalReusableBlocks)
 			return {
 				showPatterns: !! __experimentalGetAllowedPatterns(
 					destinationRootClientId
@@ -152,6 +153,7 @@ function InserterMenu( {
 		),
 		[ destinationRootClientId, onInsert, onHover ]
 	);
+	// console.log('hasReusableBlocks', hasReusableBlocks)
 
 	const getCurrentTab = useCallback(
 		( tab ) => {

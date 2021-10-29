@@ -333,37 +333,40 @@ export function MediaPlaceholder( {
 		);
 
 		if ( mediaUpload && isAppender ) {
-			return (
-				<>
-					{ renderDropZone() }
-					<FormFileUpload
-						onChange={ onUpload }
-						accept={ accept }
-						multiple={ multiple }
-						render={ ( { openFileDialog } ) => {
-							const content = (
-								<>
-									<Button
-										variant="primary"
-										className={ classnames(
-											'block-editor-media-placeholder__button',
-											'block-editor-media-placeholder__upload-button'
-										) }
-									>
-										{ __( 'Upload' ) }
-									</Button>
-									{ mediaLibraryButton }
-									{ renderUrlSelectionUI() }
-									{ renderCancelLink() }
-								</>
-							);
-							return renderPlaceholder( content, openFileDialog );
-						} }
-					/>
-				</>
-			);
+			// console.log('value', value)
+			return renderPlaceholder( mediaLibraryButton );
+			// return (
+			// 	<>
+			// 		{ renderDropZone() }
+			// 		<FormFileUpload
+			// 			onChange={ onUpload }
+			// 			accept={ accept }
+			// 			multiple={ multiple }
+			// 			render={ ( { openFileDialog } ) => {
+			// 				const content = (
+			// 					<>
+			// 						<Button
+			// 							variant="primary"
+			// 							className={ classnames(
+			// 								'block-editor-media-placeholder__button',
+			// 								'block-editor-media-placeholder__upload-button'
+			// 							) }
+			// 						>
+			// 							{ __( 'Upload' ) }
+			// 						</Button>
+			// 						{ mediaLibraryButton }
+			// 						{ renderUrlSelectionUI() }
+			// 						{ renderCancelLink() }
+			// 					</>
+			// 				);
+			// 				return renderPlaceholder( content, openFileDialog );
+			// 			} }
+			// 		/>
+			// 	</>
+			// );
 		}
 
+		// for new
 		if ( mediaUpload ) {
 			const content = (
 				<>

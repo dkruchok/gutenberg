@@ -169,6 +169,7 @@ export const prePersistPostType = ( persistedRecord, edits ) => {
  */
 function* loadPostTypeEntities() {
 	const postTypes = yield apiFetch( { path: '/wp/v2/types?context=edit' } );
+	// console.log('postTypes', postTypes)
 	return map( postTypes, ( postType, name ) => {
 		const isTemplate = [ 'wp_template', 'wp_template_part' ].includes(
 			name

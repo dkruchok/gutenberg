@@ -61,10 +61,7 @@ export function getAuthors( state, query ) {
 		alternative: "select( 'core' ).getUsers({ who: 'authors' })",
 	} );
 
-	const path = addQueryArgs(
-		'/wp/v2/users/?who=authors&per_page=100',
-		query
-	);
+	const path = addQueryArgs( '/wp/v2/users', query );
 	return getUserQueryResults( state, path );
 }
 
@@ -135,22 +132,37 @@ export function getEntity( state, kind, name ) {
  * @return {Object?} Record.
  */
 export function getEntityRecord( state, kind, name, key, query ) {
+	// winetourism
+	//let isWpBlock = '';
+	if ( name === 'wp_block' ) {
+		// name = 'block'
+		// isWpBlock = 'wp_block'
+	}
+
+	// if (isWpBlock === 'wp_block') {console.log('getEntityRecord', state, kind, name, key)}
 	const queriedState = get( state.entities.data, [
 		kind,
 		name,
 		'queriedData',
 	] );
 	if ( ! queriedState ) {
+		// if (isWpBlock === 'wp_block') {console.log('getEntityRecord 2', state, kind, name, key)}
 		return undefined;
 	}
 	const context = query?.context ?? 'default';
 
 	if ( query === undefined ) {
+		//if (isWpBlock === 'wp_block') {console.log('getEntityRecord 3', state, kind, name, key)}
 		// If expecting a complete item, validate that completeness.
 		if ( ! queriedState.itemIsComplete[ context ]?.[ key ] ) {
+			// if (name === 'wp_block') {console.log('getEntityRecord 4', state, kind, name, key)}
 			return undefined;
 		}
 
+		// if (isWpBlock === 'wp_block') {
+		// 	console.log('getEntityRecord 5', state, kind, name, key)
+		// 	console.log('queriedState.items[ context ][ key ]', queriedState.items[ context ][ key ])
+		// }
 		return queriedState.items[ context ][ key ];
 	}
 
@@ -163,9 +175,12 @@ export function getEntityRecord( state, kind, name, key, query ) {
 			const value = get( item, field );
 			set( filteredItem, field, value );
 		}
+
+		//if (isWpBlock === 'wp_block') {console.log('getEntityRecord 6', state, kind, name, key)}
 		return filteredItem;
 	}
 
+	//if (isWpBlock === 'wp_block') {console.log('getEntityRecord 6', state, kind, name, key)}
 	return item;
 }
 
@@ -255,9 +270,20 @@ export function getEntityRecords( state, kind, name, query ) {
 		name,
 		'queriedData',
 	] );
+
+	// if (name === 'wp_block') {
+	// 	console.log('getEntityRecords 1', queriedState, state, kind, name, query)
+	// }
 	if ( ! queriedState ) {
+		// if (name === 'wp_block') {
+		// 	console.log('getEntityRecords 2', state, kind, name, query)
+		// }
 		return EMPTY_ARRAY;
 	}
+
+	// if (name === 'wp_block') {
+	// 	console.log('getEntityRecords 3', state, kind, name, query)
+	// }
 	return getQueriedItems( queriedState, query );
 }
 

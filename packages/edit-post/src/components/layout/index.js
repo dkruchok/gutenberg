@@ -188,7 +188,8 @@ function Layout( { styles } ) {
 		<>
 			<FullscreenMode isActive={ isFullscreenActive } />
 			<BrowserURL />
-			<UnsavedChangesWarning />
+			{ /*WINETOURISM*/ }
+			{ /*<UnsavedChangesWarning />*/ }
 			<AutosaveMonitor />
 			<LocalAutosaveMonitor />
 			<EditPostKeyboardShortcuts />

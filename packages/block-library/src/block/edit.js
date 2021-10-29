@@ -40,6 +40,9 @@ export default function ReusableBlockEdit( { attributes: { ref }, clientId } ) {
 				'wp_block',
 				ref
 			);
+			// console.log('persistedBlock 4', persistedBlock)
+
+			// console.log('persistedBlock 2' , ref, clientId)
 			const hasResolvedBlock = select(
 				coreStore
 			).hasFinishedResolution( 'getEntityRecord', [
@@ -115,6 +118,7 @@ export default function ReusableBlockEdit( { attributes: { ref }, clientId } ) {
 		);
 	}
 
+	// console.log('innerBlocksProps',innerBlocksProps)
 	return (
 		<RecursionProvider>
 			<div { ...blockProps }>

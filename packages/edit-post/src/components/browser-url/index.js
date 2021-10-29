@@ -14,7 +14,8 @@ import { store as editorStore } from '@wordpress/editor';
  * @return {string} Post edit URL.
  */
 export function getPostEditURL( postId ) {
-	return addQueryArgs( 'post.php', { post: postId, action: 'edit' } );
+	// winetourism
+	// return addQueryArgs( 'post.php', { post: postId, action: 'edit' } );
 }
 
 /**
